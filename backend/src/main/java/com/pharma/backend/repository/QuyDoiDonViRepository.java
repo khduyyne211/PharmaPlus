@@ -3,23 +3,40 @@ package com.pharma.backend.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.pharma.backend.entity.QuyDoiDonVi;
 
 public interface QuyDoiDonViRepository extends JpaRepository<QuyDoiDonVi, Long> {
 
-    List<QuyDoiDonVi> findBySanPham_MaSanPhamOrderByMaQuyDoiAsc(Long maSanPham);
-
-    boolean existsBySanPham_MaSanPhamAndDonViNguon_MaDonViSanPhamAndDonViDich_MaDonViSanPham(
-            Long maSanPham,
-            Long maDonViNguon,
-            Long maDonViDich
+    @Query("""
+            SELECT qd
+            FROM QuyDoiDonVi qd
+            JOIN FETCH qd.sanPham sp
+            JOIN FETCH qd.donViNguon dvNguon
+            JOIN FETCH dvNguon.donViTinh dvtNguon
+            JOIN FETCH qd.donViDich dvDich
+            JOIN FETCH dvDich.donViTinh dvtDich
+            WHERE sp.maSanPham IN :danhSachMaSanPham
+              AND qd.trangThai = true
+            """)
+    List<QuyDoiDonVi> findBySanPham_MaSanPhamInAndTrangThaiTrue(
+            @Param("danhSachMaSanPham") List<Long> danhSachMaSanPham
     );
 
-    boolean existsBySanPham_MaSanPhamAndDonViNguon_MaDonViSanPhamAndDonViDich_MaDonViSanPhamAndMaQuyDoiNot(
-            Long maSanPham,
-            Long maDonViNguon,
-            Long maDonViDich,
-            Long maQuyDoi
+    @Query("""
+            SELECT qd
+            FROM QuyDoiDonVi qd
+            JOIN FETCH qd.sanPham sp
+            JOIN FETCH qd.donViNguon dvNguon
+            JOIN FETCH dvNguon.donViTinh dvtNguon
+            JOIN FETCH qd.donViDich dvDich
+            JOIN FETCH dvDich.donViTinh dvtDich
+            WHERE sp.maSanPham = :maSanPham
+              AND qd.trangThai = true
+            """)
+    List<QuyDoiDonVi> findBySanPham_MaSanPhamAndTrangThaiTrue(
+            @Param("maSanPham") Long maSanPham
     );
 }

@@ -31,5 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-# Cấu hình Spring Boot chỉ dùng trên máy cá nhân
-backend/src/main/resources/application.properties

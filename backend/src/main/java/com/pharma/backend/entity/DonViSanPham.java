@@ -14,10 +14,10 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "don_vi_san_pham")
 @Getter
 @Setter
+@Entity
+@Table(name = "don_vi_san_pham")
 public class DonViSanPham {
 
     @Id
@@ -33,7 +33,7 @@ public class DonViSanPham {
     @JoinColumn(name = "ma_don_vi_tinh", nullable = false)
     private DonViTinh donViTinh;
 
-    @Column(name = "gia_ban_theo_don_vi", precision = 12, scale = 2)
+    @Column(name = "gia_ban_theo_don_vi")
     private BigDecimal giaBanTheoDonVi;
 
     @Column(name = "la_don_vi_co_so", nullable = false)

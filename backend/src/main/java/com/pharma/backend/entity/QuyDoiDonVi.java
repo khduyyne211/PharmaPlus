@@ -14,10 +14,10 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "quy_doi_don_vi")
 @Getter
 @Setter
+@Entity
+@Table(name = "quy_doi_don_vi")
 public class QuyDoiDonVi {
 
     @Id
@@ -33,14 +33,14 @@ public class QuyDoiDonVi {
     @JoinColumn(name = "ma_don_vi_nguon", nullable = false)
     private DonViSanPham donViNguon;
 
-    @Column(name = "so_luong_nguon", nullable = false, precision = 12, scale = 3)
+    @Column(name = "so_luong_nguon", nullable = false)
     private BigDecimal soLuongNguon;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ma_don_vi_dich", nullable = false)
     private DonViSanPham donViDich;
 
-    @Column(name = "so_luong_dich", nullable = false, precision = 12, scale = 3)
+    @Column(name = "so_luong_dich", nullable = false)
     private BigDecimal soLuongDich;
 
     @Column(name = "trang_thai", nullable = false)

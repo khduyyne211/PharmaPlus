@@ -1,0 +1,14 @@
+.customer-layout {
+  min-height: 100vh;
+  background-color: #eef3f8;
+}
+
+.customer-layout-main {
+  min-height: 500px;
+}
+
+.customer-layout-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}

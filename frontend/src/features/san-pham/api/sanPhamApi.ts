@@ -1,57 +1,19 @@
-import axiosClient from "../../../api/axiosClient";
-import type { PhanTrangResponse } from "../../../types/PhanTrangResponse";
+import apiClient from "../../../shared/api/apiClient";
+import type { PageResponse } from "../../../shared/types/PageResponse";
 import type { SanPham } from "../types/SanPham";
 
-export interface ThamSoLocSanPham{
-    page: number;
-    size: number;
-
-    keyword?:string;
-    laThuocKeDon?:boolean;
-    trangThaiSanPham?:boolean;
-
-    maDanhMuc?:number;
-    maNhaSanXuat?:number;
+export interface LayDanhSachSanPhamParams {
+  sapXep?: string;
+  giaTu?: number;
+  giaDen?: number;
+  maNhaSanXuat?: number;
+  maDanhMuc?: number;
+  page?: number;
+  size?: number;
 }
-export interface SanPhamRequest{
-    maDanhMuc: number;
-    maNhaSanXuat: number | null;
-    tenSanPham:string;
-    hinhAnh:string|null;
-    giaBan:number;
-    laThuocKeDon:boolean;
-    moTaNgan:string|null;
 
-}
-export const layDanhSachSanPhamPhanTrang  = (
-    thamSo: ThamSoLocSanPham
-)=>{
-    return axiosClient.get<PhanTrangResponse<SanPham>>(
-        "/san-pham/phan-trang",{
-            params: thamSo,
-        }
-    );
+export const layDanhSachSanPhamApi = (params: LayDanhSachSanPhamParams) => {
+  return apiClient.get<PageResponse<SanPham>>("/san-pham", {
+    params,
+  });
 };
-
-export const layChiTietSanPhamDayDu = (maSanPham:number) =>{
-    return axiosClient.get<SanPham>(
-        `/san-pham/${maSanPham}/chi-tiet-day-du`
-    );
-};
-
-export const themSanPham = (duLieu:SanPhamRequest)=>{
-    return axiosClient.post<SanPham>("/san-pham", duLieu);
-};
-
-export const capNhatSanPham = (ma:number,data: SanPhamRequest)=>{
-    return axiosClient.put<SanPham>(`/san-pham/${ma}`, data)
-};
-
-export const anSanPham = (ma:number)=>{
-    return axiosClient.put<SanPham>(`/san-pham/${ma}/an`);
-};
-
-export const hienSanPham = (ma:number)=>{
-    return axiosClient.put<SanPham>(`/san-pham/${ma}/hien`);
-};
-
