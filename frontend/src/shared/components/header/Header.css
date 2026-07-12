@@ -1,0 +1,125 @@
+.customer-header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 12px rgba(7, 19, 51, 0.08);
+  position: relative;
+  z-index: 1000;
+}
+
+.header-top {
+  height: 28px;
+  padding: 0 40px;
+  background: linear-gradient(90deg, #075eea, #2f7df6);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.header-top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-top-left strong {
+  font-size: 16px;
+}
+
+.header-main {
+  height: 100px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  overflow: visible;
+}
+
+.header-logo-image-wrap {
+  width: 150px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.header-logo-image {
+  max-width: 300px;
+  max-height: 140px;
+  object-fit: contain;
+}
+
+.header-search {
+  flex: 1;
+  height: 48px;
+  display: flex;
+  background-color: #f3f6fb;
+  border: 1px solid #dbe5f2;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.header-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0 20px;
+  font-size: 15px;
+  color: #071333;
+}
+
+.header-search button {
+  border: none;
+  background-color: #075eea;
+  color: #ffffff;
+  padding: 0 24px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  overflow: visible;
+}
+
+.header-action-button {
+  border: 1px solid #dbe5f2;
+  background-color: #ffffff;
+  color: #071333;
+  padding: 11px 16px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.header-action-button:hover {
+  border-color: #075eea;
+  color: #075eea;
+}
+
+@media (max-width: 900px) {
+  .header-main {
+    height: auto;
+    padding: 16px 24px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-logo {
+    min-width: auto;
+  }
+
+  .header-top {
+    padding: 0 24px;
+  }
+
+  .header-actions {
+    justify-content: flex-end;
+  }
+}

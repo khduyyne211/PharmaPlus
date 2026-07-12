@@ -1,0 +1,148 @@
+/* Nút giỏ hàng trên header */
+
+.nut-gio-hang-header {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 46px;
+  padding: 0 22px;
+
+  background-color: #075eea;
+  color: #ffffff;
+  border-radius: 999px;
+
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 800;
+
+  box-shadow: 0 4px 12px rgba(7, 94, 234, 0.25);
+}
+
+.nut-gio-hang-header:hover {
+  background-color: #064fc4;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.nut-gio-hang-bieu-tuong {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.nut-gio-hang-header i {
+  color: #ffffff;
+}
+
+.nut-gio-hang-so-luong {
+  position: absolute;
+  top: -13px;
+  right: -12px;
+
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+
+  background-color: #ff8a00;
+  color: #ffffff;
+  border-radius: 999px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+
+  border: 2px solid #075eea;
+}
+
+/* Thông báo thêm vào giỏ hàng */
+
+.thong-bao-gio-hang-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  background-color: rgba(0, 0, 0, 0.72);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thong-bao-gio-hang-hop {
+  position: relative;
+
+  width: 360px;
+  max-width: calc(100vw - 32px);
+
+  padding: 34px 30px 30px;
+
+  background-color: rgba(17, 24, 39, 0.92);
+  border-radius: 16px;
+
+  text-align: center;
+  color: #ffffff;
+}
+
+.thong-bao-gio-hang-nut-dong {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+
+  width: 30px;
+  height: 30px;
+
+  border: none;
+  background-color: transparent;
+  color: #cbd5e1;
+
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.thong-bao-gio-hang-nut-dong:hover {
+  color: #ffffff;
+}
+
+.thong-bao-gio-hang-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 18px;
+
+  border-radius: 50%;
+  background-color: #10b981;
+  color: #071333;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.thong-bao-gio-hang-icon i {
+  color: #071333;
+}
+
+.thong-bao-gio-hang-hop p {
+  margin: 0;
+
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.45;
+}

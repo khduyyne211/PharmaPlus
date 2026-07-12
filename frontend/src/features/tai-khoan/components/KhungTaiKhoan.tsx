@@ -1,0 +1,117 @@
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { useXacThucContext } from "../../xac-thuc/context/XacThucContext";
+import "../styles/TaiKhoan.css";
+
+function KhungTaiKhoan() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const {
+    nguoiDungDangNhap,
+    dangXuat,
+  } = useXacThucContext();
+
+  const dangOSoDiaChi =
+    location.pathname.includes("/so-dia-chi");
+
+  const tenTrangHienTai = dangOSoDiaChi
+    ? "Quản lý sổ địa chỉ"
+    : "Thông tin cá nhân";
+
+  const xuLyDangXuat = () => {
+    dangXuat();
+    navigate("/");
+  };
+
+  return (
+    <main className="tai-khoan-trang">
+      <div className="page-container">
+        <div className="tai-khoan-duong-dan">
+          <NavLink to="/">Trang chủ</NavLink>
+          <span>/</span>
+          <NavLink to="/tai-khoan">
+            Cá nhân
+          </NavLink>
+          <span>/</span>
+          <strong>{tenTrangHienTai}</strong>
+        </div>
+
+        <div className="tai-khoan-bo-cuc">
+          <aside className="tai-khoan-ben-trai">
+            <div className="tai-khoan-the-nguoi-dung">
+              <div className="tai-khoan-anh-dai-dien">
+                <i className="bi bi-person-fill"></i>
+              </div>
+
+              <strong>
+                {nguoiDungDangNhap?.hoTen ||
+                  "Khách hàng"}
+              </strong>
+
+              <span>
+                {nguoiDungDangNhap?.soDienThoai ||
+                  ""}
+              </span>
+            </div>
+
+            <nav className="tai-khoan-menu-ben-trai">
+              <NavLink
+                to="/tai-khoan"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "tai-khoan-menu-muc dang-chon"
+                    : "tai-khoan-menu-muc"
+                }
+              >
+                <i className="bi bi-person-circle"></i>
+
+                <span>Thông tin cá nhân</span>
+
+                <i className="bi bi-chevron-right tai-khoan-menu-mui-ten"></i>
+              </NavLink>
+
+              <NavLink
+                to="/tai-khoan/so-dia-chi"
+                className={({ isActive }) =>
+                  isActive
+                    ? "tai-khoan-menu-muc dang-chon"
+                    : "tai-khoan-menu-muc"
+                }
+              >
+                <i className="bi bi-geo-alt"></i>
+
+                <span>Quản lý sổ địa chỉ</span>
+
+                <i className="bi bi-chevron-right tai-khoan-menu-mui-ten"></i>
+              </NavLink>
+
+              <button
+                type="button"
+                className="tai-khoan-menu-muc tai-khoan-menu-dang-xuat"
+                onClick={xuLyDangXuat}
+              >
+                <i className="bi bi-box-arrow-right"></i>
+
+                <span>Đăng xuất</span>
+
+                <i className="bi bi-chevron-right tai-khoan-menu-mui-ten"></i>
+              </button>
+            </nav>
+          </aside>
+
+          <div className="tai-khoan-ben-phai">
+            <Outlet />
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+export default KhungTaiKhoan;

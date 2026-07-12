@@ -1,0 +1,252 @@
+import { useEffect, useRef, useState } from "react";
+import type { ChiTietGioHang } from "../types/ChiTietGioHang";
+
+interface DongChiTietGioHangProps {
+  chiTiet: ChiTietGioHang;
+  dangXuLy: boolean;
+  capNhatChiTietGioHang: (
+    maChiTietGioHang: number,
+    soLuong: number,
+    maDonViSanPham: number
+  ) => void;
+  xoaSanPhamKhoiGioHang: (maChiTietGioHang: number) => void;
+}
+
+function DongChiTietGioHang({
+  chiTiet,
+  dangXuLy,
+  capNhatChiTietGioHang,
+  xoaSanPhamKhoiGioHang,
+}: DongChiTietGioHangProps) {
+  const [soLuongDangNhap, setSoLuongDangNhap] = useState(
+    String(chiTiet.soLuong)
+  );
+
+  const [dangMoDropdownDonVi, setDangMoDropdownDonVi] = useState(false);
+
+  const dropdownDonViRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setSoLuongDangNhap(String(chiTiet.soLuong));
+  }, [chiTiet.soLuong]);
+
+  useEffect(() => {
+    const dongDropdownKhiClickBenNgoai = (event: MouseEvent) => {
+      if (
+        dropdownDonViRef.current &&
+        !dropdownDonViRef.current.contains(event.target as Node)
+      ) {
+        setDangMoDropdownDonVi(false);
+      }
+    };
+
+    document.addEventListener("mousedown", dongDropdownKhiClickBenNgoai);
+
+    return () => {
+      document.removeEventListener("mousedown", dongDropdownKhiClickBenNgoai);
+    };
+  }, []);
+
+  const dinhDangTien = (giaTri: number) => {
+    return giaTri.toLocaleString("vi-VN") + "đ";
+  };
+
+  const giamSoLuong = () => {
+    if (chiTiet.soLuong <= 1 || dangXuLy) {
+      return;
+    }
+
+    capNhatChiTietGioHang(
+      chiTiet.maChiTietGioHang,
+      chiTiet.soLuong - 1,
+      chiTiet.maDonViSanPham
+    );
+  };
+
+  const tangSoLuong = () => {
+    if (dangXuLy) {
+      return;
+    }
+
+    capNhatChiTietGioHang(
+      chiTiet.maChiTietGioHang,
+      chiTiet.soLuong + 1,
+      chiTiet.maDonViSanPham
+    );
+  };
+
+  const capNhatSoLuongNhapTay = () => {
+    const soLuongMoi = Number(soLuongDangNhap);
+
+    if (!Number.isInteger(soLuongMoi) || soLuongMoi <= 0) {
+      setSoLuongDangNhap(String(chiTiet.soLuong));
+      return;
+    }
+
+    if (soLuongMoi === chiTiet.soLuong) {
+      return;
+    }
+
+    capNhatChiTietGioHang(
+      chiTiet.maChiTietGioHang,
+      soLuongMoi,
+      chiTiet.maDonViSanPham
+    );
+  };
+
+  const chonDonViBan = (maDonViSanPham: number) => {
+    if (dangXuLy) {
+      return;
+    }
+
+    setDangMoDropdownDonVi(false);
+
+    if (maDonViSanPham === chiTiet.maDonViSanPham) {
+      return;
+    }
+
+    capNhatChiTietGioHang(
+      chiTiet.maChiTietGioHang,
+      chiTiet.soLuong,
+      maDonViSanPham
+    );
+  };
+
+  const moHoacDongDropdownDonVi = () => {
+    if (dangXuLy) {
+      return;
+    }
+
+    setDangMoDropdownDonVi((dangMo) => !dangMo);
+  };
+
+  return (
+    <div className="gio-hang-dong">
+      <div className="gio-hang-cot gio-hang-cot-san-pham">
+        <div className="gio-hang-anh-san-pham">
+          {chiTiet.hinhAnh ? (
+            <img src={chiTiet.hinhAnh} alt={chiTiet.tenSanPham} />
+          ) : (
+            <div className="gio-hang-khong-co-anh">Chưa có ảnh</div>
+          )}
+        </div>
+
+        <div className="gio-hang-thong-tin-san-pham">
+          <h3>{chiTiet.tenSanPham}</h3>
+        </div>
+      </div>
+
+      <div className="gio-hang-cot gio-hang-cot-gia">
+        <strong>{dinhDangTien(chiTiet.thanhTien)}</strong>
+
+        <span>
+          {dinhDangTien(chiTiet.donGia)}
+          {chiTiet.tenDonViTinh ? ` / ${chiTiet.tenDonViTinh}` : ""}
+        </span>
+      </div>
+
+      <div className="gio-hang-cot gio-hang-cot-so-luong">
+        <div className="gio-hang-bo-dem-so-luong">
+          <button
+            type="button"
+            onClick={giamSoLuong}
+            disabled={dangXuLy || chiTiet.soLuong <= 1}
+          >
+            −
+          </button>
+
+          <input
+            type="number"
+            min={1}
+            value={soLuongDangNhap}
+            onChange={(event) => setSoLuongDangNhap(event.target.value)}
+            onBlur={capNhatSoLuongNhapTay}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.currentTarget.blur();
+              }
+            }}
+            disabled={dangXuLy}
+          />
+
+          <button type="button" onClick={tangSoLuong} disabled={dangXuLy}>
+            +
+          </button>
+        </div>
+      </div>
+
+      <div className="gio-hang-cot gio-hang-cot-don-vi">
+        {chiTiet.danhSachDonViBan.length > 0 ? (
+          <div className="gio-hang-don-vi-dropdown" ref={dropdownDonViRef}>
+            <button
+              type="button"
+              className={
+                dangMoDropdownDonVi
+                  ? "gio-hang-don-vi-nut-chon dang-mo"
+                  : "gio-hang-don-vi-nut-chon"
+              }
+              onClick={moHoacDongDropdownDonVi}
+              disabled={dangXuLy}
+            >
+              <span>{chiTiet.tenDonViTinh || "Đơn vị"}</span>
+              <i className="bi bi-chevron-down"></i>
+            </button>
+
+            {dangMoDropdownDonVi && (
+              <div className="gio-hang-don-vi-menu">
+                {chiTiet.danhSachDonViBan.map((donVi) => {
+                  const dangChon =
+                    donVi.maDonViSanPham === chiTiet.maDonViSanPham;
+
+                  return (
+                    <button
+                      key={donVi.maDonViSanPham}
+                      type="button"
+                      className={
+                        dangChon
+                          ? "gio-hang-don-vi-lua-chon dang-chon"
+                          : "gio-hang-don-vi-lua-chon"
+                      }
+                      onClick={() => chonDonViBan(donVi.maDonViSanPham)}
+                    >
+                      <span className="gio-hang-don-vi-radio">
+                        {dangChon && (
+                          <span className="gio-hang-don-vi-radio-cham"></span>
+                        )}
+                      </span>
+
+                      <span className="gio-hang-don-vi-ten">
+                        {donVi.tenDonViTinh}
+                      </span>
+
+                      <span className="gio-hang-don-vi-gia">
+                        {dinhDangTien(donVi.giaBanTheoDonVi || 0)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        ) : (
+          <span className="gio-hang-don-vi-dang-cap-nhat">
+            {chiTiet.tenDonViTinh || "Đang cập nhật"}
+          </span>
+        )}
+      </div>
+
+      <div className="gio-hang-cot gio-hang-cot-xoa">
+        <button
+          className="gio-hang-nut-xoa-icon"
+          onClick={() => xoaSanPhamKhoiGioHang(chiTiet.maChiTietGioHang)}
+          disabled={dangXuLy}
+          title="Xóa sản phẩm"
+        >
+          <i className="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default DongChiTietGioHang;
